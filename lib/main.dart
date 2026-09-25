@@ -310,36 +310,39 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF001C24),
       body: SafeArea(
         child: Column(
           children: [
+            // TOP BAR
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 18, 24, 8),
+              padding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  if (_currentPage < _pages.length - 1)
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const WelcomeScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Skip',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.55),
-                          fontSize: 14,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const WelcomeScreen(),
                         ),
+                      );
+                    },
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.55),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
+                  ),
                 ],
               ),
             ),
 
+            // ONBOARDING PAGES
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
@@ -352,82 +355,93 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemBuilder: (context, index) {
                   final page = _pages[index];
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: SizedBox(
+                  return Column(
+                    children: [
+                      // LARGE FULL-WIDTH IMAGE
+                      Expanded(
+                        flex: 7,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Image.asset(
+                            page.image,
                             width: double.infinity,
-                            child: Image.asset(
-                              page.image,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              alignment: Alignment.center,
-                            ),
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
                           ),
                         ),
+                      ),
 
-                        const SizedBox(height: 12),
+                      const SizedBox(height: 18),
 
-                        Text(
+                      // TITLE
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Text(
                           page.title,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            fontSize: 29,
-                            height: 1.15,
+                            color: Colors.white,
+                            fontSize: 30,
+                            height: 1.12,
                             fontWeight: FontWeight.w700,
                             letterSpacing: -0.7,
                           ),
                         ),
+                      ),
 
-                        const SizedBox(height: 16),
+                      const SizedBox(height: 16),
 
-                        Text(
+                      // DESCRIPTION
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 28),
+                        child: Text(
                           page.description,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 15,
-                            height: 1.6,
                             color: Colors.white.withOpacity(0.58),
+                            fontSize: 15,
+                            height: 1.55,
                           ),
                         ),
+                      ),
 
-                        const SizedBox(height: 8),
-                      ],
-                    ),
+                      const SizedBox(height: 10),
+                    ],
                   );
                 },
               ),
             ),
 
+            // BOTTOM CONTROLS
             Padding(
-              padding: const EdgeInsets.fromLTRB(28, 12, 28, 28),
+              padding: const EdgeInsets.fromLTRB(28, 12, 24, 24),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    children: List.generate(_pages.length, (index) {
-                      final selected = index == _currentPage;
+                  // PAGE INDICATORS
+                  Expanded(
+                    child: Row(
+                      children: List.generate(_pages.length, (index) {
+                        final selected = index == _currentPage;
 
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        margin: const EdgeInsets.only(right: 7),
-                        width: selected ? 24 : 7,
-                        height: 7,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: selected
-                              ? const Color(0xFFD9AE58)
-                              : Colors.white.withOpacity(0.18),
-                        ),
-                      );
-                    }),
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          margin: const EdgeInsets.only(right: 7),
+                          width: selected ? 24 : 7,
+                          height: 7,
+                          decoration: BoxDecoration(
+                            color: selected
+                                ? const Color(0xFFFFD96A)
+                                : Colors.white.withOpacity(0.18),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
 
-                  const Spacer(),
-
+                  // CONTINUE BUTTON
                   SizedBox(
                     height: 54,
                     child: ElevatedButton(
@@ -435,8 +449,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(horizontal: 25),
-                        backgroundColor: const Color(0xFFD9AE58),
-                        foregroundColor: const Color(0xFF09111D),
+                        backgroundColor: const Color(0xFFFFD96A),
+                        foregroundColor: const Color(0xFF00151C),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(17),
                         ),
